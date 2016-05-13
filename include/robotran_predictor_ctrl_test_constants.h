@@ -1,0 +1,4 @@
+#ifndef robotran_predictor_ctrl_test_CONSTANTS_H_
+#define robotran_predictor_ctrl_test_CONSTANTS_H_
+
+#endif
