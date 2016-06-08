@@ -21,8 +21,8 @@ private:
     robotran_predictor::request actual_request;
     robotran_predictor::prediction actual_prediction;
     
-    yarp::sig::Vector left_arm_position;
-    yarp::sig::Vector left_arm_torque;
+    yarp::sig::Vector robot_position;
+    yarp::sig::Vector robot_torque;
     
 public:
     
@@ -42,6 +42,13 @@ public:
      * @return true on succes, false otherwise
      */
     virtual bool custom_init();
+    
+    /**
+     * @brief robotran_predictor_ctrl_test control thread close function
+     * 
+     * @return true on succes, false otherwise
+     */
+    void custom_release();
     
     /**
      * @brief robotran_predictor_ctrl_test control thread main loop
