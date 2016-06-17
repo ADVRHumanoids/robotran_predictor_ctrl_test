@@ -23,6 +23,7 @@ private:
     
     yarp::sig::Vector robot_position;
     yarp::sig::Vector robot_torque;
+    yarp::sig::Vector robot_pos_ref;
     
 public:
     
