@@ -23,6 +23,7 @@ bool robotran_predictor_ctrl_test_thread::custom_init()
     actual_state_input.link_vel.resize(actual_state_input.joint_num , 0.0);
     actual_state_input.motor_vel.resize(actual_state_input.joint_num , 0.0);
     actual_state_input.torque.resize(actual_state_input.joint_num , 0.0);
+    actual_state_input.pos_ref.resize(actual_state_input.joint_num , 0.0);
     actual_state_input.max_temperature.resize(actual_state_input.joint_num , 0);
     actual_state_input.fault.resize(actual_state_input.joint_num , 0);
     actual_state_input.rtt.resize(actual_state_input.joint_num , 0);
