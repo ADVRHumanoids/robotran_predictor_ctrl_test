@@ -16,6 +16,7 @@ robotran_predictor_ctrl_test_thread::robotran_predictor_ctrl_test_thread( std::s
 
 bool robotran_predictor_ctrl_test_thread::custom_init()
 {
+    // state input
     actual_state_input.joint_num = robot.getNumberOfJoints();
     
     actual_state_input.link_pos.resize(actual_state_input.joint_num , 0.0);
@@ -30,6 +31,10 @@ bool robotran_predictor_ctrl_test_thread::custom_init()
     actual_state_input.op_idx_ack.resize(actual_state_input.joint_num , 0);
     actual_state_input.aux.resize(actual_state_input.joint_num , 0.0);
 
+    // request
+    actual_request.process_request = false;  // initially no requests are made
+    actual_request.prediction_time = 0.;
+
 
     return true;
 }
@@ -41,16 +46,18 @@ void robotran_predictor_ctrl_test_thread::custom_release()
 
 
 void robotran_predictor_ctrl_test_thread::run()
-{   
+{
+    // update and send input state
     robot_position = robot.sensePosition();   
     robot_torque = robot.senseTorque();
     robot_pos_ref = robot.sensePositionRefFeedback();
-
-    //std::cout << "is it in positionMode? "<< robot.isInPositionMode() << std::endl;
-    //std::cout << "helowwwwwwwwwwwwwwwww" << robot.getJointNames() << std::endl
         
     actual_state_input.link_pos = robot_position;      // NOTE just a test, i leave empty the rest
     actual_state_input.torque = robot_torque;       // NOTE just a test, i leave empty the rest
     actual_state_input.pos_ref = robot_pos_ref;
     state_input.sendCommand(actual_state_input);
+
+    // if t = ... sends request
+    // update and send input state
+    request.sendCommand(actual_request);
 }    
