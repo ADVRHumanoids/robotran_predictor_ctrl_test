@@ -61,6 +61,7 @@ void robotran_predictor_ctrl_test_thread::run()
     {
         // send a request
         actual_request.process_request = true;
+        actual_request.prediction_time = 0.1; // [s]
         request.sendCommand(actual_request);
     }
 
