@@ -57,7 +57,29 @@ void robotran_predictor_ctrl_test_thread::run()
     actual_state_input.pos_ref = robot_pos_ref;
     state_input.sendCommand(actual_state_input);
 
-    // if t = ... sends request
-    // update and send input state
-    request.sendCommand(actual_request);
+    if( (getIterations() % 500) < 5 )  // every 500 iteration (arbitrary)
+    {
+        // send a request
+        actual_request.process_request = true;
+        request.sendCommand(actual_request);
+    }
+
+    // get a prediction
+    if (actual_request.process_request)
+    {
+
+        int seq_num = 1;
+
+        if(prediction.getCommand(actual_prediction, seq_num))
+        {
+            std::cout << std::endl <<"received prediction, Lknee prediction = " << actual_prediction.left_knee_angle << std::endl<< std::endl;
+
+            actual_request.process_request == false;
+        }
+
+    }
+
+
+
+
 }    
