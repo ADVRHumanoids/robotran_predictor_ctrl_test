@@ -22,6 +22,7 @@ private:
     robotran_predictor::prediction actual_prediction;
     
     yarp::sig::Vector robot_position;
+    yarp::sig::Vector robot_velocity;
     yarp::sig::Vector robot_torque;
     yarp::sig::Vector robot_pos_ref;
     

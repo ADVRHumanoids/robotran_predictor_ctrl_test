@@ -48,13 +48,18 @@ void robotran_predictor_ctrl_test_thread::custom_release()
 void robotran_predictor_ctrl_test_thread::run()
 {
     // update and send input state
-    robot_position = robot.sensePosition();   
-    robot_torque = robot.senseTorque();
-    robot_pos_ref = robot.sensePositionRefFeedback();
+    robot_position  = robot.sensePosition();
+    robot_velocity  = robot.senseVelocity();
+    robot_torque    = robot.senseTorque();
+    robot_pos_ref   = robot.sensePositionRefFeedback();
         
-    actual_state_input.link_pos = robot_position;      // NOTE just a test, i leave empty the rest
-    actual_state_input.torque = robot_torque;       // NOTE just a test, i leave empty the rest
-    actual_state_input.pos_ref = robot_pos_ref;
+    actual_state_input.link_pos     = robot_position;
+    actual_state_input.link_vel     = robot_velocity;
+    actual_state_input.motor_pos    = robot_position;  // currently no difference between motot and link side (TBD)
+    actual_state_input.motor_vel    = robot_velocity;  // currently no difference between motot and link side (TBD)
+    actual_state_input.torque       = robot_torque;
+    actual_state_input.pos_ref      = robot_pos_ref;
+
     state_input.sendCommand(actual_state_input);
 
     if( (getIterations() % 500) < 5 )  // every 500 iteration (arbitrary)
