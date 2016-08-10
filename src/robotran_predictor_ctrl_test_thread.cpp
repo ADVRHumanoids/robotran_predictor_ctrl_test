@@ -35,6 +35,9 @@ bool robotran_predictor_ctrl_test_thread::custom_init()
     actual_request.process_request = false;  // initially no requests are made
     actual_request.prediction_time = 0.;
 
+    // arm move
+    //robot.left_arm.setPositionDirectMode(); // position control
+    robot.left_arm.setTorqueMode(); // torque control
 
     return true;
 }
@@ -47,6 +50,19 @@ void robotran_predictor_ctrl_test_thread::custom_release()
 
 void robotran_predictor_ctrl_test_thread::run()
 {
+    // send a command (move arm)
+    double time = getIterations()*0.05; // [s]
+    double signal = ((int)round(time))%2-0.5; // step signal
+
+    double left_offset[7] = {0};//, 45, 2, 330, 20, 22, 0};
+    yarp::sig::Vector left_arm_offset(7,left_offset);
+
+    left_offset[3] = signal; // position control
+
+    //left_offset[3] = 10000*signal; // torque control (seems not available)
+
+    robot.left_arm.move(left_arm_offset); // position control
+
     // update and send input state
     robot_position  = robot.sensePosition();
     robot_velocity  = robot.senseVelocity();
@@ -62,7 +78,7 @@ void robotran_predictor_ctrl_test_thread::run()
 
     state_input.sendCommand(actual_state_input);
 
-    if( (getIterations() % 500) == 0 )  // every 500 iteration (arbitrary)
+    if( (getIterations() % 50) == 0 )  // number of iterations (arbitrary)
     {
         // send a request
         actual_request.process_request = true;
