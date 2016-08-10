@@ -62,7 +62,7 @@ void robotran_predictor_ctrl_test_thread::run()
 
     state_input.sendCommand(actual_state_input);
 
-    if( (getIterations() % 500) < 5 )  // every 500 iteration (arbitrary)
+    if( (getIterations() % 500) == 0 )  // every 500 iteration (arbitrary)
     {
         // send a request
         actual_request.process_request = true;
